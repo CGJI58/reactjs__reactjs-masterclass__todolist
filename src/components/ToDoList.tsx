@@ -11,6 +11,7 @@ function ToDoList() {
     setCategory(event.currentTarget.value as any); //will be modified
   };
   console.log(toDos);
+
   return (
     <>
       <h1>ToDos</h1>
