@@ -10,6 +10,7 @@ function CreateToDo() {
   const setToDos = useSetRecoilState(toDoState);
   const category = useRecoilValue(categoryState);
   const { register, handleSubmit, setValue } = useForm<IForm>();
+
   const handleValid = ({ toDo }: IForm) => {
     setToDos((oldToDos) => {
       localStorage.setItem(
@@ -20,6 +21,7 @@ function CreateToDo() {
     });
     setValue("toDo", "");
   };
+
   return (
     <form onSubmit={handleSubmit(handleValid)}>
       <input
