@@ -1,5 +1,4 @@
-import { atom, selector } from "recoil";
-import { recoilPersist } from "recoil-persist";
+import { atom } from "recoil";
 
 export const toDoState = atom({
   key: "toDo",
