@@ -7,7 +7,7 @@ import Board from "./Components/Board";
 const Wrapper = styled.div`
   display: flex;
   max-width: 800px;
-  width: 100%;
+  width: 100vw;
   margin: 0 auto;
   justify-content: center;
   align-items: center;
@@ -15,22 +15,28 @@ const Wrapper = styled.div`
 `;
 
 const Boards = styled.div`
-  display: grid;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   width: 100%;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
 `;
 
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
-  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
-    // if (!destination) return;
-    // setToDos((currentToDos) => {
-    //   const copiedToDos = [...currentToDos];
-    //   copiedToDos.splice(source.index, 1);
-    //   copiedToDos.splice(destination?.index, 0, draggableId);
-    //   return copiedToDos;
-    // });
+  const onDragEnd = (info: DropResult) => {
+    console.log(info);
+    const { destination, draggableId, source } = info;
+    if (destination?.droppableId === source.droppableId) {
+      setToDos((Boards) => {
+        const copiedBoard = [...Boards[source.droppableId]];
+        copiedBoard.splice(source.index, 1);
+        copiedBoard.splice(destination.index, 0, draggableId);
+        return {
+          ...Boards,
+          [source.droppableId]: copiedBoard,
+        };
+      });
+    }
   };
   return (
     <>
