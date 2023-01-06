@@ -1,7 +1,7 @@
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { toDoState } from "./atoms";
+import { toDoState, IToDo } from "./atoms";
 import Board from "./Components/Board";
 
 const Wrapper = styled.div`
@@ -23,7 +23,6 @@ const Boards = styled.div`
 
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
-
   const onDragEnd = (info: DropResult) => {
     const { destination, draggableId, source } = info;
     if (!destination) return;
@@ -31,7 +30,10 @@ function App() {
       setToDos((Boards) => {
         const copiedBoard = [...Boards[source.droppableId]];
         copiedBoard.splice(source.index, 1);
-        copiedBoard.splice(destination.index, 0, draggableId);
+        copiedBoard.splice(destination.index, 0, {
+          id: 12345,
+          text: draggableId,
+        });
         return {
           ...Boards,
           [source.droppableId]: copiedBoard,
@@ -43,7 +45,10 @@ function App() {
         const sourceBoard = [...Boards[source.droppableId]];
         const destinationBoard = [...Boards[destination.droppableId]];
         sourceBoard.splice(source.index, 1);
-        destinationBoard.splice(destination.index, 0, draggableId);
+        destinationBoard.splice(destination.index, 0, {
+          id: 12345,
+          text: draggableId,
+        });
         return {
           ...Boards,
           [source.droppableId]: sourceBoard,
@@ -51,6 +56,7 @@ function App() {
         };
       });
     }
+    // console.log(info);
   };
   return (
     <>
