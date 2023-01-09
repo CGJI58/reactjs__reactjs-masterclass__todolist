@@ -20,14 +20,27 @@ interface IForm {
 
 const Wrapper = styled.div`
   width: 300px;
-  padding-top: 30px;
+  padding: 10px;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 5px;
-  min-height: 300px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 `;
+
+// const RemoveListBtn = styled.div`
+//   width: 30px;
+//   height: 30px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   line-height: 0;
+//   align-self: flex-end;
+//   background-color: rgba(0, 0, 0, 0.1);
+//   border-radius: 50%;
+//   cursor: pointer;
+// `;
 
 const Title = styled.h2`
   text-align: center;
@@ -64,6 +77,7 @@ const Area = styled.div<IAreaProps>`
   flex-grow: 1;
   transition: background-color 0.3s ease-in-out;
   padding: 20px;
+  overflow-y: scroll;
 `;
 
 function Board({ toDos, boardId }: IBoardProps) {
