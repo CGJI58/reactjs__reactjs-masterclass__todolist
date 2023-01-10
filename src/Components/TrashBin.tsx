@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 
 const TrashBinArea = styled.div<ITrashBinAreaProps>`
   background-color: ${(props) =>
-    props.isDraggingOver ? "#dfe6e9" : props.theme.boardColor};
+    props.isDraggingOver ? "#ea8685" : props.theme.boardColor};
   transition: background-color 0.3s ease-in-out;
   width: 100%;
   height: 100%;

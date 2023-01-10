@@ -1,7 +1,8 @@
-import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { toDoState, IToDo } from "./atoms";
+import { toDoState, IToDoState, IToDo } from "./atoms";
 import Board from "./Components/Board";
 import TrashBin from "./Components/TrashBin";
 
@@ -27,7 +28,11 @@ const Boards = styled.div`
   place-items: center;
 `;
 
-const Form = styled.div`
+interface IForm {
+  category: string;
+}
+
+const Form = styled.form`
   display: flex;
   width: 100%;
   * {
@@ -41,13 +46,14 @@ const Form = styled.div`
 
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
-  const onsubmit = (event: any) => {
-    console.log(event);
+  const { register, handleSubmit, setValue } = useForm<IForm>();
+  const onValid = ({ category }: IForm) => {
+    setToDos((Boards) => ({ ...Boards, [category]: [] }));
+    setValue("category", "");
   };
   const onDragEnd = (info: DropResult) => {
     const { destination, source } = info;
     if (!destination) return;
-
     if (destination.droppableId === "trashBin") {
       console.log(info);
       setToDos((Boards) => {
@@ -60,7 +66,6 @@ function App() {
       });
       return;
     }
-
     if (destination.droppableId === source.droppableId) {
       setToDos((Boards) => {
         const copiedBoard = [...Boards[source.droppableId]];
@@ -89,13 +94,17 @@ function App() {
     }
     console.log(info);
   };
+
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
         <Wrapper>
-          <Form onSubmit={onsubmit}>
-            <input type="text" placeholder="New Category" />
-            <button onClick={onsubmit}>Add</button>
+          <Form onSubmit={handleSubmit(onValid)}>
+            <input
+              {...register("category", { required: true })}
+              type="text"
+              placeholder="New Category"
+            />
           </Form>
           <Boards>
             {Object.keys(toDos).map((boardId) => (
