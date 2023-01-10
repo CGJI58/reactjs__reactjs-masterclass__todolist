@@ -48,7 +48,18 @@ function App() {
     const { destination, source } = info;
     if (!destination) return;
 
-    //만약 destination이 휴지통이면 삭제하는 함수 여기에
+    if (destination.droppableId === "trashBin") {
+      console.log(info);
+      setToDos((Boards) => {
+        const copiedBoard = [...Boards[source.droppableId]];
+        copiedBoard.splice(source.index, 1);
+        return {
+          ...Boards,
+          [source.droppableId]: copiedBoard,
+        };
+      });
+      return;
+    }
 
     if (destination.droppableId === source.droppableId) {
       setToDos((Boards) => {

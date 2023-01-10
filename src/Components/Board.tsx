@@ -20,10 +20,10 @@ interface IForm {
 
 const Wrapper = styled.div`
   width: 300px;
+  height: 300px;
   padding: 10px;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 5px;
-  height: 300px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -42,7 +42,7 @@ const Wrapper = styled.div`
 //   cursor: pointer;
 // `;
 
-const Title = styled.h2`
+export const Title = styled.h2`
   text-align: center;
   font-weight: 600;
   margin-bottom: 10px;
