@@ -2,7 +2,7 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { toDoState, IToDoState, IToDo } from "./atoms";
+import { toDoState } from "./atoms";
 import Board from "./Components/Board";
 import TrashBin from "./Components/TrashBin";
 

@@ -29,18 +29,19 @@ const Wrapper = styled.div`
   overflow: hidden;
 `;
 
-// const RemoveListBtn = styled.div`
-//   width: 30px;
-//   height: 30px;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   line-height: 0;
-//   align-self: flex-end;
-//   background-color: rgba(0, 0, 0, 0.1);
-//   border-radius: 50%;
-//   cursor: pointer;
-// `;
+const RemoveBoardBtn = styled.div`
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  align-self: flex-end;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+`;
 
 export const Title = styled.h2`
   text-align: center;
@@ -81,14 +82,14 @@ const Area = styled.div<IAreaProps>`
 `;
 
 function Board({ toDos, boardId }: IBoardProps) {
-  const setToDos = useSetRecoilState(toDoState);
+  const setBoards = useSetRecoilState(toDoState);
   const { register, handleSubmit, setValue } = useForm<IForm>();
   const onValid = ({ toDo }: IForm) => {
     const newToDo = {
       id: Date.now(),
       text: toDo,
     };
-    setToDos((Boards) => {
+    setBoards((Boards) => {
       return {
         ...Boards,
         [boardId]: [newToDo, ...Boards[boardId]],
@@ -96,8 +97,18 @@ function Board({ toDos, boardId }: IBoardProps) {
     });
     setValue("toDo", "");
   };
+  const onClickRemoveBoardBtn = () => {
+    setBoards((current) => {
+      const result = {
+        ...current,
+      };
+      delete result[boardId];
+      return result;
+    });
+  };
   return (
     <Wrapper>
+      <RemoveBoardBtn onClick={onClickRemoveBoardBtn}>❌</RemoveBoardBtn>
       <Title>{boardId}</Title>
       <Form onSubmit={handleSubmit(onValid)}>
         <input
