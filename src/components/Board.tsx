@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { IToDo, toDoState } from "../atoms";
+import { IToDo, toDoState } from "../model/atoms";
+import { saveTodos } from "../model/localstorage";
 import DraggableCard from "./DraggableCard";
 
 interface IAreaProps {
@@ -82,7 +84,7 @@ const Area = styled.div<IAreaProps>`
 `;
 
 function Board({ toDos, boardId }: IBoardProps) {
-  const setBoards = useSetRecoilState(toDoState);
+  const [boards, setBoards] = useRecoilState(toDoState);
   const { register, handleSubmit, setValue } = useForm<IForm>();
   const onValid = ({ toDo }: IForm) => {
     const newToDo = {
@@ -106,6 +108,10 @@ function Board({ toDos, boardId }: IBoardProps) {
       return result;
     });
   };
+  useEffect(() => {
+    saveTodos(boards);
+  }, [boards]);
+
   return (
     <Wrapper>
       <RemoveBoardBtn onClick={onClickRemoveBoardBtn}>❌</RemoveBoardBtn>

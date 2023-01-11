@@ -2,9 +2,11 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { toDoState } from "./atoms";
-import Board from "./Components/Board";
-import TrashBin from "./Components/TrashBin";
+import { defaultTodos, toDoState } from "./model/atoms";
+import Board from "./components/Board";
+import TrashBin from "./components/TrashBin";
+import { useEffect } from "react";
+import { loadTodos } from "./model/localstorage";
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,6 +48,9 @@ const Form = styled.form`
 
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
+  useEffect(() => {
+    setToDos(loadTodos() ?? defaultTodos);
+  }, [setToDos]);
   const { register, handleSubmit, setValue } = useForm<IForm>();
   const onValid = ({ category }: IForm) => {
     setToDos((Boards) => ({ ...Boards, [category]: [] }));

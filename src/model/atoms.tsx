@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { loadTodos } from "./localstorage";
 
 export interface IToDo {
   id: number;
@@ -9,11 +10,13 @@ export interface IToDoState {
   [key: string]: IToDo[];
 }
 
+export const defaultTodos: IToDoState = {
+  "To Do": [],
+  doing: [],
+  done: [],
+};
+
 export const toDoState = atom<IToDoState>({
-  key: "toDo",
-  default: {
-    "To Do": [],
-    doing: [],
-    done: [],
-  },
+  key: "todostate",
+  default: loadTodos() ?? defaultTodos,
 });
